@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1e1e1e"/>
+  <title>Friendsy Data Words — Learn Data Basics (PWA)</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icons/icon-192.png">
+  <meta name="description" content="A cozy Friendsy word puzzle to learn data basics with definitions, hints, and background music. Offline-ready PWA." />
+  <style>
+    :root{
+      --bg:#151515; --panel:#1e1e1e; --border:#2b2b2b; --text:#f5f5f5;
+      --accent:#3ae0c8; --accent2:#ffac3d; --muted:#a8b3b0;
+    }
+    html, body { height:100%; margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica, Arial; }
+    .wrap { display:grid; place-items:center; padding:16px; min-height:100%; }
+    .card { width:min(95vw, 920px); background:var(--panel); border:1px solid var(--border); border-radius:20px; box-shadow:0 10px 40px rgba(0,0,0,.35); padding:18px; }
+    h1 { margin:0 0 8px; font-weight:800; letter-spacing:0.3px; }
+    .sub { opacity:0.85; margin-bottom:16px; }
+    .grid { display:grid; grid-template-columns:1fr; gap:14px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .btn { background:#2b2b2b; border:1px solid #3b3b3b; padding:10px 14px; border-radius:12px; cursor:pointer; color:#f5f5f5; }
+    .btn:hover { background:#333; }
+    .pill { font-size:14px; padding:6px 10px; border-radius:999px; border:1px dashed #555; color:#ddd; }
+    .k { background:#232323; padding:3px 9px; border-radius:8px; border:1px solid #3a3a3a; margin-left:6px; }
+    .panel { border:1px solid var(--border); border-radius:16px; padding:14px; background:linear-gradient(180deg, #1b1b1b, #171717); }
+    .input { font-size:20px; padding:10px 12px; border-radius:12px; border:1px solid #3b3b3b; background:#121212; color:var(--text); width:100%; }
+    .tiles { display:flex; gap:8px; flex-wrap:wrap; }
+    .tile { font-weight:700; letter-spacing:1px; font-size:22px; padding:12px 14px; border-radius:12px; border:1px solid #3b3b3b; background:#202020; min-width:36px; text-align:center; }
+    .good{ background:#1f3a34; border-color:#2e6a5a; }
+    .bad{ background:#3a1f20; border-color:#6a2e32; }
+    .hint { color:var(--muted); }
+    footer { opacity:0.7; font-size:12px; margin-top:10px; text-align:center; }
+    .score { font-weight:700; }
+    .flex { display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    .mini { font-size:13px; opacity:0.9; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Friendsy Data Words <span class="pill">PWA</span></h1>
+      <div class="sub">Learn the basics of data through cozy word puzzles. Guess terms from definitions, unscramble, and collect streaks. Background lo-fi included.</div>
+
+      <div class="panel grid">
+        <div class="flex">
+          <div>Round <span id="round">1</span> / <span id="total">—</span> • Score: <span class="score" id="score">0</span> • Streak: <span id="streak">0</span></div>
+          <div>
+            <button id="playPause" class="btn">Play / Pause</button>
+            <button id="install" class="btn" hidden>Install</button>
+            <button id="reset" class="btn">New Game</button>
+          </div>
+        </div>
+
+        <div class="mini">Definition:</div>
+        <div id="definition" class="hint"></div>
+
+        <div class="mini">Scrambled letters:</div>
+        <div id="scramble" class="tiles"></div>
+
+        <input id="guess" class="input" placeholder="Type your answer (press Enter)"/>
+        <div class="flex">
+          <div class="mini">Hint: <span id="hint" class="hint">—</span></div>
+          <div>
+            <button id="btnHint" class="btn">Reveal Letter (-1)</button>
+            <button id="btnSkip" class="btn">Skip (-2)</button>
+          </div>
+        </div>
+      </div>
+      <footer>Built for learning. No external audio or media; all offline. A friendly nod to coffeehouse vibes—no trademarks used.</footer>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(console.error);
+      });
+    }
+  </script>
+</body>
+</html>
